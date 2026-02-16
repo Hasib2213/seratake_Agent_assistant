@@ -1,0 +1,54 @@
+# FastAPI & Web Framework
+uvicorn
+pydantic>=2.0
+python-multipart
+
+# LangChain & AI
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.1
+langchain-google-genai
+langchain-experimental
+google-generativeai
+
+# Database - MongoDB
+motor
+pymongo
+beanie
+
+# Data Processing
+pandas
+numpy
+python-dateutil
+
+# Environment & Config
+python-dotenv
+pydantic-settings
+
+# Utilities
+requests
+aiohttp
+logging-json
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+
+# Security & Auth
+PyJWT
+python-jose
+passlib
+bcrypt
+
+# Monitoring & Logging
+python-json-logger
+prometheus-client
+
+# Task Queue
+celery
+redis
+
+# Utils
+pytz
+fastapi
