@@ -5,8 +5,6 @@ Autonomous agents for risk prediction, maintenance scheduling, etc.
 
 import json
 import logging
-from langchain_core.tools import Tool
-from langchain_core.tools import tool
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -31,7 +29,6 @@ class RiskPredictionAgent:
         )
         self.memory = ChatMessageHistory()
         
-    @tool
     def analyze_historical_incidents(self, org_id: str, days: int = 90) -> Dict:
         """Analyze historical incident data to identify patterns"""
         try:
@@ -59,7 +56,6 @@ class RiskPredictionAgent:
             logger.error(f"Error analyzing incidents: {str(e)}")
             return {"status": "error", "message": str(e)}
     
-    @tool
     def predict_risk_trends(self, analysis_data: Dict) -> Dict:
         """Use AI to predict upcoming risks"""
         try:
@@ -91,7 +87,7 @@ class RiskPredictionAgent:
         # In production, query actual database
         return [
             {
-                "date": datetime.utcnow() - timedelta(days=i),
+                "date": (datetime.utcnow() - timedelta(days=i)).isoformat(),
                 "category": "Safety",
                 "severity": "Medium",
             }
@@ -135,7 +131,6 @@ class PredictiveMaintenanceAgent:
             temperature=0.5,  # More deterministic
         )
     
-    @tool
     def get_equipment_data(self, org_id: str) -> Dict:
         """Fetch equipment usage data"""
         try:
@@ -148,7 +143,6 @@ class PredictiveMaintenanceAgent:
         except Exception as e:
             return {"status": "error", "message": str(e)}
     
-    @tool
     def predict_maintenance_dates(self, equipment_data: Dict) -> Dict:
         """Predict optimal maintenance dates"""
         try:
@@ -225,7 +219,6 @@ class TrainingGapAnalysisAgent:
             google_api_key=settings.GEMINI_API_KEY,
         )
     
-    @tool
     def get_skills_matrix(self, org_id: str) -> Dict:
         """Get current skills matrix"""
         return {
@@ -241,7 +234,6 @@ class TrainingGapAnalysisAgent:
             ],
         }
     
-    @tool
     def get_updated_procedures(self, org_id: str) -> Dict:
         """Get recently updated procedures"""
         return {
@@ -256,7 +248,6 @@ class TrainingGapAnalysisAgent:
             ],
         }
     
-    @tool
     def assign_training_tasks(self, skills_data: Dict, documents: Dict) -> Dict:
         """AI assigns training tasks based on gaps"""
         prompt = f"""
@@ -310,7 +301,6 @@ class SupplierEvaluationAgent:
             google_api_key=settings.GEMINI_API_KEY,
         )
     
-    @tool
     def get_supplier_metrics(self, org_id: str) -> Dict:
         """Fetch supplier performance metrics"""
         return {
@@ -327,7 +317,6 @@ class SupplierEvaluationAgent:
             ],
         }
     
-    @tool
     def analyze_trends(self, supplier_data: Dict) -> Dict:
         """Analyze supplier performance trends"""
         prompt = f"""
@@ -379,7 +368,6 @@ class RootCauseAnalysisAgent:
             google_api_key=settings.GEMINI_API_KEY,
         )
     
-    @tool
     def get_non_conformities(self, org_id: str) -> Dict:
         """Fetch open non-conformities"""
         return {
@@ -394,7 +382,6 @@ class RootCauseAnalysisAgent:
             ],
         }
     
-    @tool
     def apply_root_cause_methods(self, nc_data: Dict) -> Dict:
         """Apply 5 Whys and Fishbone methods"""
         prompt = f"""
